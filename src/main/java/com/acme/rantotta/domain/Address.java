@@ -1,10 +1,21 @@
 package com.acme.rantotta.domain;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
 public class Address {
 
-    private String street; 
+    @NotNull
+    @Length(min=4)
+    private String street;
+    
+    @NotNull
     private String city;
+    
+    @NotNull
     private String zip;
+    
     public String getStreet() {
         return street;
     }
