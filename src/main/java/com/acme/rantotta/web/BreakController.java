@@ -21,6 +21,7 @@ public class BreakController {
     public String list(Model model) {
         
         model.addAttribute("breakList", service.getAll());
+        model.addAttribute("minutes", service.getMinutesTillNext());
         return "list";
     }
 }
