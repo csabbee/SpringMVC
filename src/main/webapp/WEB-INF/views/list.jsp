@@ -7,7 +7,11 @@
 <h2>list</h2>
 <ul>
   <c:forEach var="next" items="${breakList}">
-    <li>${next }</li>
+  <c:url  var="deleteUrl" value="/delete">
+  	<c:param name="break" value="${next }" />
+  </c:url>
+  
+    <li>${next } <a href="${deleteUrl }">x</a></li>
   </c:forEach>  
 </ul>
 

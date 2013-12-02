@@ -1,5 +1,7 @@
 package com.acme.rantotta.web;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,5 +25,13 @@ public class BreakController {
         model.addAttribute("breakList", service.getAll());
         model.addAttribute("minutes", service.getMinutesTillNext());
         return "list";
+    }
+    
+    @RequestMapping("/delete")
+    public String delete(HttpServletRequest request) {
+        String breakToDelete = request.getParameter("break");
+        service.delete(breakToDelete);
+        
+        return "redirect:/list";
     }
 }
