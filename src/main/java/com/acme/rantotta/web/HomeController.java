@@ -1,4 +1,4 @@
-package com.acme.rantotta;
+package com.acme.rantotta.web;
 
 import java.text.DateFormat;
 import java.text.ParseException;
