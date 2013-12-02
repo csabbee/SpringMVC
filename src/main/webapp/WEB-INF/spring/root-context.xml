@@ -8,6 +8,5 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<context:component-scan base-package="com.acme.rantotta.service"/>
-	
-	<bean class="com.acme.rantotta.service.BreakTimeService" c:breaks="10:45,14:45,17:15"/>
+	<context:property-placeholder/>
 </beans>
