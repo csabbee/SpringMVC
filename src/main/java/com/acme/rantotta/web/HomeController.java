@@ -1,4 +1,4 @@
-package com.acme.rantotta;
+package com.acme.rantotta.web;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -51,7 +51,7 @@ public class HomeController {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-	    
+	    //adott view-ban elérhető (request scope-ba rakja)
 	    model.addAttribute("minutes", minutes);
 	    return "lunch";
 	}
