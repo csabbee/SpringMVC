@@ -1,6 +1,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<link href="https://gist.github.com/lalyos/06fe35683579fb60b440/raw/alert.css" rel="stylesheet" />
 
-<div style="border: 2px solid black; font-size: xx-large;">
+<div class="alert">
 	Minutes left: ${minutes }
 </div>
 
