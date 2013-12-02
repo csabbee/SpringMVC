@@ -7,19 +7,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+@Service
 public class BreakTimeService {
     
     private TreeSet<String> breakTimes = new TreeSet<String>();
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-ddHH:mm");
     private static SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
     private static SimpleDateFormat hourFormatter = new SimpleDateFormat("HH:mm");
-    
-    public BreakTimeService() {        
-    }
 
-    public BreakTimeService(String breaks) {
+    @Autowired
+    public BreakTimeService(@Value("${breaktimes.init}") String breaks) {
         for(String next: breaks.split(",")) {
             breakTimes.add(next);
         }
