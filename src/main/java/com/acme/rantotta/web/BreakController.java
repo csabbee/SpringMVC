@@ -34,4 +34,12 @@ public class BreakController {
         
         return "redirect:/list";
     }
+    
+    @RequestMapping("/add")
+    public String add(HttpServletRequest request) {
+        String newBreak = request.getParameter("break");
+        service.add(newBreak);
+        
+        return "redirect:/list";
+    }
 }

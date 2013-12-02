@@ -16,3 +16,11 @@
   </c:forEach>  
 </ul>
 
+<c:url var="addUrl" value="/add" />
+<form action="${addUrl }" method="post">
+  <fieldset>
+    <label for="break">Break:</label>
+    <input id="break" type="text" name="break" />
+    <button type="submit">Add</button>
+  </fieldset>
+</form>
