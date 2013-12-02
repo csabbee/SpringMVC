@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +21,8 @@ public class BreakTimeService {
     
     public BreakTimeService(){}
     
-    public BreakTimeService(String breaks){
+    @Autowired
+    public BreakTimeService(@Value("${breaktimes.init}")String breaks){
         for (String next : breaks.split(",")) {
             breakTimes.add(next);
         }
