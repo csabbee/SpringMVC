@@ -4,7 +4,7 @@
 <h3>v0.4</h3>
 
 <div>
-	DELIVERY = ${address}
+	DELIVERY = ${sessionScope.address}
 </div>
 
 <hr/>
