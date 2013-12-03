@@ -1,11 +1,20 @@
 package com.acme.rantotta.domain;
 
+import javax.validation.constraints.Min;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 
 public class Food {
 
+    @NotEmpty
     private String id;
+    
+    @NotEmpty
     private String name;
     private String description;
+    @NotEmpty
+    @Min(50)
     private float price;
     private int calories;
 
