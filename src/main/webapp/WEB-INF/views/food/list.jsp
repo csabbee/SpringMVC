@@ -20,6 +20,9 @@
     </tr>
   </thead>
 <c:forEach var="food" items="${foodList}">
+
+<c:url var="showUrl"  value="/food/${food.id}" />
+
 <c:url var="deleteUrl"  value="/food">
   <c:param name="foodId" value="${food.id}"></c:param>  
 </c:url>
@@ -30,6 +33,7 @@
   <td>${food.name} </td>
   <td> ${food.price} </td> 
   <td>
+		    <a href="${showUrl }" class="btn btn-info" ><i class="icon-search icon-white"></i></a> 
 		    <a href="${editUrl }" class="btn btn-info" ><i class="icon-pencil icon-white"></i></a> 
     
 
