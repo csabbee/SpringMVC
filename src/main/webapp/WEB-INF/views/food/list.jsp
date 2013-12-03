@@ -1,7 +1,17 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib tagdir="/WEB-INF/tags"  prefix="b" %>
-<ul>
+<%@include file="/WEB-INF/views/common/header.jsp" %>
+
+<h3>table v0.2</h3>
+<table class="table table-hover table-striped">
+<thead>
+    <tr>
+      <th>food</th>
+      <th>price</th>
+      <th>action</th>
+    </tr>
+  </thead>
 <c:forEach var="food" items="${foodList}">
 <c:url var="deleteUrl"  value="/food/delete">
   <c:param name="foodId" value="${food.id}"></c:param>
@@ -9,10 +19,17 @@
 <c:url var="editUrl"  value="/food/edit">
   <c:param name="foodId" value="${food.id}"></c:param>
 </c:url>
-
-  <li>${food.name} : ${food.price} <a href="${editUrl}">Edit</a> <a href="${deleteUrl}">Delete</a> </li>
+  <tr>
+  <td>${food.name} </td>
+  <td> ${food.price} </td> 
+  <td>
+    <a href="${editUrl}" class="btn btn-info" ><i class="icon-pencil icon-white"></i></a> 
+    <a href="${deleteUrl}" class="btn btn-danger"><i class="icon-remove icon-white"></i></a>
+  </td>
+  <tr>
 </c:forEach>
-</ul>
+</table>
+
 
 
 <c:url var="saveUrl" value="/food/${action}" />
@@ -20,5 +37,7 @@
   <b:input name="id" hidden="true"/>
   <b:input name="name" />
   <b:input name="price" />
-  <form:button>${action }</form:button>
+  <button class="btn btn-success">${action }</button>
 </form:form>
+
+<%@include file="/WEB-INF/views/common/footer.jsp" %>
