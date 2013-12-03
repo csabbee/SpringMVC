@@ -3,8 +3,15 @@
 <%@taglib tagdir="/WEB-INF/tags"  prefix="b" %>
 <%@include file="/WEB-INF/views/common/header.jsp" %>
 
-<h3>table v0.2</h3>
-<table class="table table-hover table-striped">
+<c:if test="${not empty flashMsg}">
+<div class="alert alert-${flashType}">
+  ${flashMsg}
+</div>
+	
+</c:if>
+
+<h3>table v0.6</h3>
+<table class="table table-striped">
 <thead>
     <tr>
       <th>food</th>
