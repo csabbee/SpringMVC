@@ -1,9 +1,8 @@
 <%@ tag language="java" pageEncoding="US-ASCII"%>
 <%@ attribute name="name" description="" required="true" %>
+<%@taglib uri="http://www.springframework.org/tags/form"  prefix="form"%>
 
-<hr/>
-post: ${pageContext.request.method == 'post'}
    <fieldset>
     <label for="${name }">${name }:</label>
-    <input id="${name }" type="text" name="${name }" value="${pageContext.request.method == 'POST' ? param[name] : sessionScope.address[name]}"/>
+    <form:input path="${name }"/> <form:errors path="${name }" />   
   </fieldset>

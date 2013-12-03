@@ -4,8 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.acme.rantotta.domain.Address;
@@ -14,7 +16,9 @@ import com.acme.rantotta.domain.Address;
 public class AddressController {
 
     @RequestMapping("/address")
-    public String address() {
+    public String address(Model model) {
+        Address address = new Address();
+        model.addAttribute("address", address);
         return "address/show";
     }
     
