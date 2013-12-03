@@ -5,10 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.acme.rantotta.domain.Food;
+import org.springframework.stereotype.Service;
 
+import com.acme.rantotta.domain.Food;
+@Service
 public class FoodService {
     Map<String, Food> foodMap = new HashMap();
+    
+    public FoodService() {
+        add(new Food("k1", "rantotta", 390));
+        add(new Food("k2", "bableves", 780));
+        add(new Food("k3", "pacal", 1200));
+    }
     
     public void add(Food food) {
         foodMap.put(food.getId(), food);
