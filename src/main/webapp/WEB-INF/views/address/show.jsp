@@ -19,3 +19,4 @@
 	<br/><form:button >set</form:button>
 </form:form>
   
+<b:debug map="${requestScope}" title="REQ"></b:debug>

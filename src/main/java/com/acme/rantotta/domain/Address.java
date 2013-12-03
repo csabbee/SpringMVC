@@ -2,18 +2,20 @@ package com.acme.rantotta.domain;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 public class Address {
 
-    @NotNull
+    @NotEmpty
     @Length(min=4)
     private String street;
     
-    @NotNull
+    @NotEmpty
     private String city;
     
-    @NotNull
+    @Pattern(regexp="[0-9]{4}", message="should be 4 numbers")
     private String zip;
     
     public String getStreet() {

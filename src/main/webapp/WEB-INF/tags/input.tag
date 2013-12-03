@@ -4,5 +4,5 @@
 
    <fieldset>
     <label for="${name }">${name }:</label>
-    <form:input path="${name }"/> <form:errors path="${name }" />   
+    <form:input path="${name }"/> <form:errors path="${name }" cssStyle="color:red"/>   
   </fieldset>
