@@ -10,7 +10,7 @@
 	
 </c:if>
 
-<h3>table v0.6</h3>
+<h3>table v0.91</h3>
 <table class="table table-striped">
 <thead>
     <tr>
@@ -20,27 +20,31 @@
     </tr>
   </thead>
 <c:forEach var="food" items="${foodList}">
-<c:url var="deleteUrl"  value="/food/delete">
-  <c:param name="foodId" value="${food.id}"></c:param>
+<c:url var="deleteUrl"  value="/food">
+  <c:param name="foodId" value="${food.id}"></c:param>  
 </c:url>
-<c:url var="editUrl"  value="/food/edit">
+<c:url var="editUrl"  value="/food-edit-form">
   <c:param name="foodId" value="${food.id}"></c:param>
 </c:url>
   <tr>
   <td>${food.name} </td>
   <td> ${food.price} </td> 
   <td>
-    <a href="${editUrl}" class="btn btn-info" ><i class="icon-pencil icon-white"></i></a> 
-    <a href="${deleteUrl}" class="btn btn-danger"><i class="icon-remove icon-white"></i></a>
+		    <a href="${editUrl }" class="btn btn-info" ><i class="icon-pencil icon-white"></i></a> 
+    
+
+    <form:form action="${deleteUrl}" method="delete">  
+		    <button class="btn btn-danger"><i class="icon-remove icon-white"></i></button> 
+    </form:form>
+
   </td>
   <tr>
 </c:forEach>
 </table>
 
 
-
-<c:url var="saveUrl" value="/food/${action}" />
-<form:form modelAttribute="food" action="${saveUrl}">
+<c:url var="saveUrl" value="/food" />
+<form:form modelAttribute="food" action="${saveUrl}" method="${method}" >
   <b:input name="id" hidden="true"/>
   <b:input name="name" />
   <b:input name="price" />
