@@ -49,7 +49,7 @@
         </div>
         <div class="nav-collapse">
           <ul class="nav">
-            <li><a href="${baseUrl}food/list">food</a></li>
+            <li><a href="${baseUrl}food">food</a></li>
           </ul>
         </div>
       </div>
