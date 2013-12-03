@@ -109,4 +109,13 @@ public class FoodController {
         return "food/show";
     }
 
+    @RequestMapping(value="/food/{foodId}", produces="text/json")
+    public ResponseEntity<String> showJson(@PathVariable String foodId, Model model) {
+        
+        HttpHeaders responseHeaders = new HttpHeaders();
+        Food food = foodService.find(foodId);
+        String json = String.format("{'id': '%s', 'name' : '%s', 'price': %f }", food.getId(), food.getName(), food.getPrice());
+        return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
+    }
+
  }
