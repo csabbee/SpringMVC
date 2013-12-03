@@ -1,10 +1,11 @@
 package com.acme.rantotta.web;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -59,7 +60,7 @@ public class FoodController {
 
     @RequestMapping(value="/food-edit-form")
     public String edit(@RequestParam String foodId, Model model) {
-        logger.warn("EDIT");
+        logger.warn("EDIT: id:{} " , foodId);
 
         Food foodToEdit = foodService.find(foodId);
         
@@ -99,5 +100,13 @@ public class FoodController {
 
         return "redirect:/food";
     }
-    
+
+    @RequestMapping(value="/food/{foodId}", produces="text/html")
+    public String show(@PathVariable String foodId, Model model) {
+        
+        model.addAttribute("food", foodService.find(foodId));
+        
+        return "food/show";
+    }
+
  }
