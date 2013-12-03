@@ -37,7 +37,7 @@
 		    <a href="${editUrl }" class="btn btn-info" ><i class="icon-pencil icon-white"></i></a> 
     
 
-    <form:form action="${deleteUrl}" method="delete">  
+    <form:form action="${deleteUrl}" method="delete" cssStyle="display: inline">  
 		    <button class="btn btn-danger"><i class="icon-remove icon-white"></i></button> 
     </form:form>
 
