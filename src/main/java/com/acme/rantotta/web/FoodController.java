@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.acme.rantotta.domain.Food;
@@ -56,10 +58,9 @@ public class FoodController {
     }
 
     @RequestMapping(value="/food-edit-form")
-    public String edit(HttpServletRequest request, Model model) {
+    public String edit(@RequestParam String foodId, Model model) {
         logger.warn("EDIT");
 
-        String foodId = request.getParameter("foodId");
         Food foodToEdit = foodService.find(foodId);
         
         model.addAttribute("foodList", foodService.getAll());
@@ -87,8 +88,7 @@ public class FoodController {
     }
 
     @RequestMapping(value="/food", method=RequestMethod.DELETE)
-    public String delete(HttpServletRequest request, RedirectAttributes flash ) {
-        String foodId = request.getParameter("foodId");
+    public String delete(@RequestParam String foodId, RedirectAttributes flash ) {
         logger.warn("DELETE: {}", foodId);
         Food food = foodService.find(foodId);
         logger.warn("deleting food: {}", food);
@@ -100,5 +100,4 @@ public class FoodController {
         return "redirect:/food";
     }
     
-
-}
+ }
