@@ -1,18 +1,34 @@
 <%@include file="/WEB-INF/views/common/header.jsp" %>
-<h4>v0.9</h4>
+<h4>v0.93</h4>
 <script>
-function FoodController($scope) {
+function FoodController($scope, $http) {
+	  $scope.jsonResult;
 	  $scope.nextId = 100;
       $scope.newFood = {};	
-	  $scope.foods = {
-	                  'k1': {'id': 'k1', 'name': 'pacal1', 'price': 444},
-	                  'k2' : {'id': 'k2', 'name': 'json prokolt', 'price': 560},
-	                  'k3' : {'id': 'k3', 'name': 'palacsinta', 'price': 1200},
-	                  'k4' : {'id': 'k4', 'name': 'fokhagymas kave', 'price': 300},
-	  };
-	  
+      $scope.foods={};
+
+	  $scope.refresh = function(foodId) {
+		  $http({method: 'GET', url: '/mvc/food'}).
+		  success(function(data, status, headers, config) {
+			  $scope.jsonResult = "OK " + data;
+			  $scope.foods=data;
+		  }).
+		  error(function(data, status, headers, config) {
+			  $scope.jsonResult = "ERROR " + data;
+		  });
+	  }
+      
 	  $scope.remove = function(foodId) {
-		  delete $scope.foods[foodId];
+		  //delete $scope.foods[foodId];
+		  
+		  $http({method: 'GET', url: '/mvc/food/k1'}).
+		  success(function(data, status, headers, config) {
+			  $scope.jsonResult = "OK " + data;
+			  $scope.foods[data.id]=data;
+		  }).
+		  error(function(data, status, headers, config) {
+			  $scope.jsonResult = "ERROR " + data;
+		  });
 	  }
 	  
 	  $scope.addFood = function() {
@@ -29,6 +45,7 @@ name: <input type="text" ng-model="name"/>
 <hr/>
 <h3>welcome {{name}}</h3>
 
+<button class="btn btn-success" ng-click="refresh()">refresh</button>
 <ul ng-repeat="food in foods">
   <li >[{{food.id}}] {{food.name}}
   <button class="btn btn-danger" ng-click="remove(food.id)">
@@ -37,6 +54,7 @@ name: <input type="text" ng-model="name"/>
   </li>
 </ul>
 
+<h3>result: {{jsonResult}}</h3>
 <hr/>
 <form class="form-inline">
    <input type="text" class="input-small" placeholder="food" ng-model="newFood.name">
