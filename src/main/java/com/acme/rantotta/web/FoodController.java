@@ -1,5 +1,12 @@
 package com.acme.rantotta.web;
 
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +18,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.acme.rantotta.domain.Food;
@@ -24,7 +33,9 @@ public class FoodController {
 
     private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
     private final FoodService foodService;
-    private static int counter = 100;
+    private static AtomicInteger counter = new AtomicInteger(100);
+    
+    
     @Autowired
     public FoodController(FoodService foodService) {
         this.foodService = foodService;
@@ -46,7 +57,7 @@ public class FoodController {
     public String add(@ModelAttribute Food food, BindingResult result, RedirectAttributes flash ) {
         logger.warn("ADD");
 
-        food.setId("k" + counter++);
+        food.setId("k" + counter.getAndIncrement());
         
         if (result.hasErrors()) {
             return "food/list";
@@ -58,8 +69,8 @@ public class FoodController {
         }
     }
 
-    @RequestMapping(value="/food-edit-form")
-    public String edit(@RequestParam String foodId, Model model) {
+    @RequestMapping(value="/food/{foodId}", params="form")
+    public String edit(@PathVariable String foodId, Model model) {
         logger.warn("EDIT: id:{} " , foodId);
 
         Food foodToEdit = foodService.find(foodId);
@@ -88,8 +99,8 @@ public class FoodController {
         }
     }
 
-    @RequestMapping(value="/food", method=RequestMethod.DELETE)
-    public String delete(@RequestParam String foodId, RedirectAttributes flash ) {
+    @RequestMapping(value="/food/{foodId}", method=RequestMethod.DELETE)
+    public String delete(@PathVariable String foodId, RedirectAttributes flash ) {
         logger.warn("DELETE: {}", foodId);
         Food food = foodService.find(foodId);
         logger.warn("deleting food: {}", food);
@@ -110,12 +121,28 @@ public class FoodController {
     }
 
     @RequestMapping(value="/food/{foodId}", produces="text/json")
-    public ResponseEntity<String> showJson(@PathVariable String foodId, Model model) {
+    public ResponseEntity<String> showJson(@PathVariable String foodId, Model model) throws Exception {
         
         HttpHeaders responseHeaders = new HttpHeaders();
+        ObjectMapper mapper = new ObjectMapper();
         Food food = foodService.find(foodId);
-        String json = String.format("{'id': '%s', 'name' : '%s', 'price': %f }", food.getId(), food.getName(), food.getPrice());
+        String json = mapper.writeValueAsString(food);
         return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
+    }
+    
+    @RequestMapping(value="/food", method=RequestMethod.POST, produces="text/json")
+    public ResponseEntity<String> createFromJson(@RequestBody String json) throws Exception {
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+
+        String decodedJson = URLDecoder.decode(json);
+        ObjectMapper mapper = new ObjectMapper();
+        Food food = mapper.readValue(decodedJson, Food.class);
+        
+        food.setId("J"+counter.getAndIncrement());
+        foodService.add(food);
+
+        return new ResponseEntity<String>("{ok}", responseHeaders, HttpStatus.CREATED);
     }
 
  }

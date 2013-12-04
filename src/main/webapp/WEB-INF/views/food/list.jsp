@@ -22,12 +22,9 @@
 <c:forEach var="food" items="${foodList}">
 
 <c:url var="showUrl"  value="/food/${food.id}" />
-
-<c:url var="deleteUrl"  value="/food">
-  <c:param name="foodId" value="${food.id}"></c:param>  
-</c:url>
-<c:url var="editUrl"  value="/food-edit-form">
-  <c:param name="foodId" value="${food.id}"></c:param>
+<c:url var="deleteUrl"  value="/food/${food.id}" />
+<c:url var="editUrl"  value="/food/${food.id}">
+  <c:param name="form" value=""></c:param>  
 </c:url>
   <tr>
   <td>${food.name} </td>
