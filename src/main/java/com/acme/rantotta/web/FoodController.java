@@ -30,8 +30,10 @@ import com.acme.rantotta.domain.Food;
 import com.acme.rantotta.service.FoodService;
 
 @Controller
+@RequestMapping(value="/food", produces="text/html")
 public class FoodController {
 
+    private static final String PRODUCES_JSON = "application/json"; 
     private static final Logger logger = LoggerFactory.getLogger(FoodController.class);
     private final FoodService foodService;
     private static AtomicInteger counter = new AtomicInteger(100);
@@ -42,7 +44,7 @@ public class FoodController {
         this.foodService = foodService;
     }
     
-    @RequestMapping("/food")
+    @RequestMapping
     public String list(Model model) {
         logger.warn("LIST");
 
@@ -54,7 +56,7 @@ public class FoodController {
         return "food/list";
     }
 
-    @RequestMapping(value="/food", produces={"text/json", "application/json"})
+    @RequestMapping(produces=PRODUCES_JSON)
     public @ResponseBody String listJson() throws JsonGenerationException, JsonMappingException, IOException {
         logger.warn("LIST-JSON");
 
@@ -65,7 +67,7 @@ public class FoodController {
         return json;
     }
 
-    @RequestMapping(value="/food" ,method=RequestMethod.POST)
+    @RequestMapping(method=RequestMethod.POST)
     public String add(@ModelAttribute Food food, BindingResult result, RedirectAttributes flash ) {
         logger.warn("ADD");
 
@@ -81,7 +83,7 @@ public class FoodController {
         }
     }
 
-    @RequestMapping(value="/food/{foodId}", params="form")
+    @RequestMapping(value="/{foodId}", params="form")
     public String edit(@PathVariable String foodId, Model model) {
         logger.warn("EDIT: id:{} " , foodId);
 
@@ -96,7 +98,7 @@ public class FoodController {
     }
 
 
-    @RequestMapping(value="/food", method=RequestMethod.PUT)
+    @RequestMapping(method=RequestMethod.PUT)
     public String update(@ModelAttribute Food food, BindingResult result, RedirectAttributes flash ) {
         logger.warn("UPDATE");
         
@@ -111,7 +113,7 @@ public class FoodController {
         }
     }
 
-    @RequestMapping(value="/food/{foodId}", method=RequestMethod.DELETE)
+    @RequestMapping(value="/{foodId}", method=RequestMethod.DELETE)
     public String delete(@PathVariable String foodId, RedirectAttributes flash ) {
         logger.warn("DELETE: {}", foodId);
         Food food = foodService.find(foodId);
@@ -124,7 +126,16 @@ public class FoodController {
         return "redirect:/food";
     }
 
-    @RequestMapping(value="/food/{foodId}", produces="text/html")
+    
+    @RequestMapping(value="/{foodId}", method=RequestMethod.DELETE, produces=PRODUCES_JSON)
+    public ResponseEntity<String> deleteJson(@PathVariable String foodId, RedirectAttributes flash ) {
+        logger.warn("DELETE-JSON");
+        foodService.deleteById(foodId);
+        
+        return new ResponseEntity<String>(HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value="/{foodId}", produces="text/html")
     public String show(@PathVariable String foodId, Model model) {
         
         model.addAttribute("food", foodService.find(foodId));
@@ -132,7 +143,7 @@ public class FoodController {
         return "food/show";
     }
 
-    @RequestMapping(value="/food/{foodId}", produces={"text/json", "application/json"})
+    @RequestMapping(value="/{foodId}", produces=PRODUCES_JSON)
     public ResponseEntity<String> showJson(@PathVariable String foodId, Model model) throws Exception {
         
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -142,7 +153,7 @@ public class FoodController {
         return new ResponseEntity<String>(json, responseHeaders, HttpStatus.CREATED);
     }
     
-    @RequestMapping(value="/food", method=RequestMethod.POST, produces="text/json")
+    @RequestMapping(method=RequestMethod.POST, produces=PRODUCES_JSON)
     public ResponseEntity<String> createFromJson(@RequestBody String json) throws Exception {
 
         HttpHeaders responseHeaders = new HttpHeaders();
@@ -154,7 +165,7 @@ public class FoodController {
         food.setId("J"+counter.getAndIncrement());
         foodService.add(food);
 
-        return new ResponseEntity<String>("{ok}", responseHeaders, HttpStatus.CREATED);
+        return new ResponseEntity<String>("{\"status\":\"ok\"}", responseHeaders, HttpStatus.CREATED);
     }
 
  }
