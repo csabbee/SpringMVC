@@ -50,7 +50,7 @@
 <c:url var="saveUrl" value="/food" />
 <form:form modelAttribute="food" action="${saveUrl}" method="${method}" >
   <b:input name="id" hidden="true"/>
-  <b:input name="name"  onclick="alert('Servus schlampe')" style="color:red;"/>
+  <b:input name="name" />
   <b:input name="price" />
   <button class="btn btn-success">${action }</button>
 </form:form>
