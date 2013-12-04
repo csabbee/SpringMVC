@@ -37,7 +37,7 @@
   <![endif]-->
 </head>
 
-<body ng-controller="BreakController">
+<body >
 
   <header class="navbar navbar-fixed-top">
       <div class="navbar-inner">
