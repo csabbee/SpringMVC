@@ -50,6 +50,7 @@
         <div class="nav-collapse">
           <ul class="nav">
             <li><a href="${baseUrl}food">food</a></li>
+            <li><a href="${baseUrl}angular">angular</a></li>
           </ul>
         </div>
       </div>
