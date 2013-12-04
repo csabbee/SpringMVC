@@ -2,6 +2,7 @@ package com.acme.rantotta.web;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -52,7 +53,18 @@ public class FoodController {
 
         return "food/list";
     }
-    
+
+    @RequestMapping(value="/food", produces={"text/json", "application/json"})
+    public @ResponseBody String listJson() throws JsonGenerationException, JsonMappingException, IOException {
+        logger.warn("LIST-JSON");
+
+        List<Food> foodList = foodService.getAll();
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(foodList);
+
+        return json;
+    }
+
     @RequestMapping(value="/food" ,method=RequestMethod.POST)
     public String add(@ModelAttribute Food food, BindingResult result, RedirectAttributes flash ) {
         logger.warn("ADD");
@@ -120,7 +132,7 @@ public class FoodController {
         return "food/show";
     }
 
-    @RequestMapping(value="/food/{foodId}", produces="text/json")
+    @RequestMapping(value="/food/{foodId}", produces={"text/json", "application/json"})
     public ResponseEntity<String> showJson(@PathVariable String foodId, Model model) throws Exception {
         
         HttpHeaders responseHeaders = new HttpHeaders();
