@@ -14,18 +14,16 @@ function FoodController($scope, $http) {
 			  data.forEach(function(food) {
 				  $scope.foods[food.id] = food;
 			  });
-			  
 		  }).
 		  error(function(data, status, headers, config) {
 			  $scope.jsonResult = "ERROR " + data;
 		  });
 		  $scope.newFood = new Object();
 	  };
+	  
 	  $scope.refresh();
       
-	  $scope.remove = function(foodId) {
-		  
-		  
+	  $scope.remove = function(foodId) {		  
 		  $http({method: 'DELETE', url: '/mvc/food/' + foodId}).
 		  success(function(data, status, headers, config) {
 			  $scope.jsonResult = "OK " + data;
@@ -51,5 +49,15 @@ function FoodController($scope, $http) {
 			  $scope.jsonResult = "ERROR " + data;
 		  });
 		  console.log("debug4");
+	  };
+	  
+	  $scope.orderFood = function(foodId) {
+		  $http({method: 'POST', url: '/mvc/food/order' + foodId}).
+		  succes(function(data, status, headers, config) {
+			  $scope.jsonResult = "OK " + data;
+		  }).
+		  error(function(data, status, headers, config) {
+			  $scope.jsonResult = "ERROR" + data;
+		  });
 	  };
 }
