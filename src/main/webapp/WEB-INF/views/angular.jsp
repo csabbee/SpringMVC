@@ -26,12 +26,12 @@
   </tr>
 </table>
 
-<h3>result: {{jsonResult}}</h3>
+<!-- <h3>result: {{jsonResult}}</h3>-->
 <hr/>
 <form class="form-inline">
    <input type="text" class="input-small" placeholder="food" ng-model="newFood.name">
    <input type="text" class="input-small" placeholder="price" ng-model="newFood.price">
-   <button type="submit" class="btn" ng-click="addFood()">Add</button>
+   <button type="submit" class="btn btn-succes" ng-click="addFood()">Add</button>
 </form>
 
 </div>
