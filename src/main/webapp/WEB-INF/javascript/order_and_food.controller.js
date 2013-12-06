@@ -1,4 +1,4 @@
-function FoodController($scope, $http) {
+function OrderAndFoodController($scope, $http) {
 	  $scope.jsonResult;
 	  $scope.nextId = 100;
       $scope.newFood = {};	
