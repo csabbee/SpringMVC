@@ -1,7 +1,7 @@
 <%@include file="/WEB-INF/views/common/header.jsp" %>
 <h4>v1.00</h4>
 
-<div ng-controller="FoodController">
+<div ng-controller="OrderAndFoodController">
 
 <button class="btn btn-success" ng-click="refresh()">refresh</button>
 
