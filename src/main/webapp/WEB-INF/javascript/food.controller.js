@@ -51,24 +51,4 @@ function FoodController($scope, $http) {
 		  });
 		  console.log("debug4");
 	  };
-	  
-	  $scope.orderFood = function(foodId) {
-		  $http({method: 'POST', url: '/mvc/food/order' + foodId}).
-		  succes(function(data, status, headers, config) {
-			  $scope.jsonResult = "OK " + data;
-		  }).
-		  error(function(data, status, headers, config) {
-			  $scope.jsonResult = "ERROR" + data;
-		  });
-	  };
-	  
-	  $scope.removeFoodFromOrder = function(foodId) {
-		  $http({method: 'DELETE', url: '/mvc/food/order' + foodId}).
-		  succes(function(data, status, headers, config) {
-			  $scope.jsonResult = "OK " + data;
-		  }).
-		  error(function(data, status, headers, config) {
-			  $scope.jsonResult = "ERROR" + data;
-		  });
-	  };
 }
