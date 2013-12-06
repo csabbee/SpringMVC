@@ -7,13 +7,11 @@ import java.util.TreeMap;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.acme.rantotta.domain.Food;
-
 public class Order {
 
     @NotEmpty
     private String orderId;
-    private Map<String, Food> foodMap = new TreeMap<String, Food>();
+    private Map<String, OrderItem> orderItemMap = new TreeMap<String, OrderItem>();
     private boolean delivered = false;
     
     public String getOrderId() {
@@ -22,14 +20,14 @@ public class Order {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
-    public List<Food> getFoodsFromOrder(){
-        return new ArrayList<Food>(foodMap.values());
+    public List<OrderItem> getOrderItemsFromOrder(){
+        return new ArrayList<OrderItem>(orderItemMap.values());
     }
-    public void addFoodToOrder(Food food){
+    public void addOrderItemToOrder(OrderItem orderItem){
         if(!delivered){
-            foodMap.put(food.getId(), food);
+            orderItemMap.put(orderItem.getId(), orderItem);
         } else {
-            throw new IllegalStateException("this order is delivered, food cannot be added to it");
+            throw new IllegalStateException("this order is delivered, cannot be modified");
         }
     }
     public boolean isDelivered(){
