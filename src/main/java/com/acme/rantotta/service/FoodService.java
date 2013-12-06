@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.acme.rantotta.domain.Food;
 @Service
 public class FoodService {
-    Map<String, Food> foodMap = new HashMap();
+    Map<String, Food> foodMap = new HashMap<String, Food>();
     
     public FoodService() {
         add(new Food("k1", "rantotta", 390));
@@ -31,6 +31,6 @@ public class FoodService {
     }
     
     public List<Food> getAll() {
-        return new ArrayList(foodMap.values());
+        return new ArrayList<Food>(foodMap.values());
     }
 }
