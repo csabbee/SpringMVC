@@ -22,7 +22,7 @@
   <!-- <link href="http://netdna.bootstrapcdn.com/bootswatch/3.0.2/united/bootstrap.min.css" rel="stylesheet"> -->
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.6.0/ui-bootstrap.js"></script>
-  <script src="https://dl.dropboxusercontent.com/u/2770756/food.controller.js"></script>
+  <script src="https://dl.dropboxusercontent.com/u/2770756/order_and_food.controller.js"></script>
   <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap.min.css" rel="stylesheet"/>
   
 
