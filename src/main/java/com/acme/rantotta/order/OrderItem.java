@@ -4,26 +4,27 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.acme.rantotta.domain.Food;
-
 public class OrderItem {
+
 
     @NotEmpty
     private String id;
     @NotNull
     private int quantity;
-    private Food food;
     
-    public OrderItem(Food food){
-        this.id = food.getId();
-        this.food = food;
+    public OrderItem(){}
+
+    public OrderItem(String id){
+        this.id = id;
         quantity = 1;
     }
-
     public String getId() {
         return id;
     }
-
+    
+    public void setFoodId(String id){
+        this.id = id;
+    }
     public int getQuantity() {
         return quantity;
     }
@@ -42,9 +43,5 @@ public class OrderItem {
     
     public void decrementQuantity(){
         quantity--;
-    }
-
-    public Food getFood() {
-        return food;
     }
 }
