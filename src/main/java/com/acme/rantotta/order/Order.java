@@ -10,14 +10,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Order {
 
     @NotEmpty
-    private String orderId;
+    private Integer orderId;
     private Map<String, OrderItem> orderItemMap = new TreeMap<String, OrderItem>();
     private boolean delivered = false;
     
-    public String getOrderId() {
+    public Integer getOrderId() {
         return orderId;
     }
-    public void setOrderId(String orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
     public List<OrderItem> getOrderItemsFromOrder(){
@@ -25,7 +25,12 @@ public class Order {
     }
     public void addOrderItemToOrder(OrderItem orderItem){
         if(!delivered){
-            orderItemMap.put(orderItem.getId(), orderItem);
+            if(!orderItemMap.containsKey(orderItem.getId())){
+                orderItemMap.put(orderItem.getId(), orderItem);
+            } else {
+                OrderItem currentItem = orderItemMap.get(orderItem.getId());
+                currentItem.setQuantity(currentItem.getQuantity()+orderItem.getQuantity());
+            }
         } else {
             throw new IllegalStateException("this order is delivered, cannot be modified");
         }
