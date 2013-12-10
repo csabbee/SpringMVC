@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.acme.rantotta.exception.OrderServiceException;
 import com.acme.rantotta.order.Order;
 import com.acme.rantotta.order.OrderItem;
 import com.acme.rantotta.service.OrderService;
@@ -101,5 +103,21 @@ public class OrderController {
         Order order = service.getOrderById(cartId);
         order.addOrderItemToOrder(orderItem);
         return "{\"status\":\"ok\"}";
+    }
+    
+    @ExceptionHandler(OrderServiceException.class)
+    @ResponseStatus(value=HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String handleOrderException(Exception e){
+        return e.getMessage();
+    }
+    
+    @RequestMapping(value="/cart/{cartId}", method=RequestMethod.POST, produces=PRODUCES_JSON,
+            headers="content-length=0")
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public String checkOutCarFromJson(@PathVariable Integer cartId){
+        service.checkOutCart(cartId);
+        return "todo...";
     }
 }
