@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.acme.rantotta.domain.Food;
+import com.acme.rantotta.exception.OrderServiceException;
 import com.acme.rantotta.order.Order;
 
 @Service
@@ -41,7 +42,7 @@ public class OrderService {
                 orderMap.put(cartId, order);
             }
         } else {
-            throw new IllegalArgumentException("Cartid does not exist! You have to call POST /cart first");
+            throw new OrderServiceException("CartId does not exist! You have to call POST /cart first");
         }
         return orderMap.get(cartId);
     }
@@ -56,5 +57,14 @@ public class OrderService {
     }
     public Food getFoodById(String foodId){
         return foodService.find(foodId);
+    }
+    public void checkOutCart(Integer cartId){
+        if(sessionIdMap.containsValue(cartId)){
+            if(!orderMap.get(cartId).isDelivered()){
+                orderMap.get(cartId).setDelivered();
+            } else throw new OrderServiceException("Cart already checked out!");
+        } else {
+            throw new OrderServiceException("CartId does not exist");
+        }
     }
 }
