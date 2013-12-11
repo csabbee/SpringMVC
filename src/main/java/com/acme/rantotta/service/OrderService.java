@@ -31,7 +31,7 @@ public class OrderService {
     public void addOrder(final Order order){
         orderMap.put(order.getOrderId(), order);
     }
-    public void deleteById(final String id){
+    public void deleteById(final Integer id){
         orderMap.remove(id);
     }
     public Order getOrderById(final Integer cartId){
