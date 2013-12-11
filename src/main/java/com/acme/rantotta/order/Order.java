@@ -43,4 +43,7 @@ public class Order {
     public void setDelivered(){
         delivered = true;
     }
+    public void removeOrderItem(String foodId) {
+        orderItemMap.remove(foodId);
+    }
 }
