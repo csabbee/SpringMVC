@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.jackson.JsonParseException;
@@ -40,7 +39,6 @@ public class OrderController {
     
     private static final String PRODUCES_JSON = "application/json";
     private OrderService service;
-    //private static AtomicInteger counter = new AtomicInteger(1000);
     
     
     @Autowired
@@ -109,7 +107,7 @@ public class OrderController {
     public String putOrderItemInOrderFromJson(@PathVariable Integer cartId, 
             @RequestBody String json) throws JsonParseException, JsonMappingException, IOException{
         logger.warn("cartId: {}", cartId);
-        String decodedJson = URLDecoder.decode(json);
+        String decodedJson = URLDecoder.decode(json, "UTF-8");
         logger.warn("decodedJson: {}", decodedJson);
         ObjectMapper mapper = new ObjectMapper();
         OrderItem orderItem = mapper.readValue(decodedJson, OrderItem.class);
@@ -130,7 +128,7 @@ public class OrderController {
             headers="content-length=0")
     @ResponseStatus(value=HttpStatus.OK)
     @ResponseBody
-    public String checkOutCarFromJson(@PathVariable Integer cartId){
+    public String checkOutCartFromJson(@PathVariable Integer cartId){
         service.checkOutCart(cartId);
         return "{\"status\":\"checked out\"}";
     }
