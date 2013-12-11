@@ -6,7 +6,7 @@ public class OrderServiceException extends RuntimeException {
         super();
     }
 
-    public OrderServiceException(String message) {
+    public OrderServiceException(final String message) {
         super(message);
     }
 

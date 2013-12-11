@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -41,7 +40,7 @@ public class OrderController {
     
     private static final String PRODUCES_JSON = "application/json";
     private OrderService service;
-    private static AtomicInteger counter = new AtomicInteger(1000);
+    //private static AtomicInteger counter = new AtomicInteger(1000);
     
     
     @Autowired
