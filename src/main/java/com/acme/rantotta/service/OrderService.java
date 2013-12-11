@@ -62,6 +62,7 @@ public class OrderService {
         if(sessionIdMap.containsValue(cartId)){
             if(!orderMap.get(cartId).isDelivered()){
                 orderMap.get(cartId).setDelivered();
+                sessionIdMap.values().remove(cartId);
             } else {
                 throw new OrderServiceException("Cart already checked out!");
             }
