@@ -7,6 +7,8 @@ import java.util.TreeMap;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.acme.rantotta.exception.OrderServiceException;
+
 public class Order {
 
     @NotEmpty
@@ -32,7 +34,7 @@ public class Order {
                 currentItem.setQuantity(currentItem.getQuantity()+orderItem.getQuantity());
             }
         } else {
-            throw new IllegalStateException("this order is delivered, cannot be modified");
+            throw new OrderServiceException("this order is delivered, cannot be modified");
         }
     }
     public boolean isDelivered(){
