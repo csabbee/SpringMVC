@@ -15,7 +15,9 @@
 						<th>id</th>
 						<th>food</th>
 						<th>price</th>
-						<th>action</th>
+						<th>
+						  <div align="center">actions</div>
+						</th>
 					</tr>
 				</thead>
 				<tr ng-repeat="food in foods">
@@ -23,9 +25,14 @@
 					<td>{{food.name}}</td>
 					<td>{{food.price}}</td>
 					<td>
+					 <div align="center">
 						<button class="btn btn-danger" ng-click="remove(food.id)">
 							<i class="icon icon-trash icon-white"></i>
 						</button>
+						<button class="btn btn-success" ng-click="addOrderItem(food.id, 1)">
+              <i class="icon icon-plus-sign icon-white"></i>
+            </button>
+           </div>
 					</td>
 				</tr>
 			</table> <!-- <h3>result: {{jsonResult}}</h3>-->
@@ -46,10 +53,10 @@
           </tr>
         </thead>
         <tr ng-repeat="orderitem in order">
-          <td>{{orderitem.food.name}}</td>
+          <td>{{orderitem.id}}</td>
           <td>{{orderitem.quantity}}</td>
           <td>
-            <button class="btn btn-danger" ng-click="removeFoodFromOrder(food.id)">
+            <button class="btn btn-danger" ng-click="removeFoodFromOrder(orderitem.id)">
               <i class="icon icon-trash icon-white"></i>
             </button>
           </td>
