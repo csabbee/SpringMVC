@@ -49,13 +49,20 @@ public class OrderController {
         this.service = service;
     }
     
-    @RequestMapping
+    @RequestMapping(method=RequestMethod.GET)
     public String listOrder(Model model){
         model.addAttribute("orderList", service.getAll());
-        return "/food";
+        return "food/list";
     }
     
-    @RequestMapping(produces=PRODUCES_JSON)
+    @RequestMapping(value="/cart/{cartId}", method=RequestMethod.GET)
+    public String listOrderItem(Model model, @PathVariable Integer cartId){
+        Order order = service.getOrderById(cartId);
+        model.addAttribute("orderItemList", order.getOrderItemsFromOrder());
+        return "food/list";
+    }
+    
+    @RequestMapping(method=RequestMethod.GET, produces=PRODUCES_JSON)
     @ResponseBody 
     public String listOrderJSon() throws Exception{
         List<Order> orderList = service.getAll();
@@ -64,16 +71,24 @@ public class OrderController {
         return json;
     }
     
+    @RequestMapping(value="/cart/{cartId}", method=RequestMethod.GET, produces=PRODUCES_JSON)
+    @ResponseBody 
+    public String listOrderItemsJSon(@PathVariable Integer cartId) throws Exception{
+        Order order = service.getOrderById(cartId);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(order.getOrderItemsFromOrder());
+        return json;
+    }
+    
     @RequestMapping(value="/cart",produces=PRODUCES_JSON, method=RequestMethod.POST)
     @ResponseBody
-    public String getCart(HttpServletRequest request){
+    public String getCartFromJson(HttpServletRequest request){
         logger.warn("request cookies: {}", request.getCookies());
         List<String> cookies = Arrays.asList(request.getHeader("Cookie"));
         Map<String, String> cookieMap = new HashMap<String, String>();
         for (String cookie : cookies) {
             cookieMap.put(cookie.toString().split("=")[0], cookie.toString().split("=")[1]);
         }
-        
         return "{\"id\":" +service.getCartIdBySessionId(cookieMap.get("JSESSIONID"))+ "}";
     }
     
@@ -117,6 +132,43 @@ public class OrderController {
     @ResponseBody
     public String checkOutCarFromJson(@PathVariable Integer cartId){
         service.checkOutCart(cartId);
-        return "todo...";
+        return "{\"status\":\"checked out\"}";
     }
+    
+    @RequestMapping(value="/cart/{cartId}", method=RequestMethod.DELETE)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public String deleteOrder(@PathVariable Integer cartId){
+        service.deleteById(cartId);
+        return "food/list";
+    }
+    
+    @RequestMapping(value="/cart/{cartId}", method=RequestMethod.DELETE, produces=PRODUCES_JSON,
+            headers="contetn-length(0")
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public String deleteOrderFromJson(@PathVariable Integer cartId){
+        service.deleteById(cartId);
+        return "{\"status\":\"deleted\"}";
+    }
+    
+    @RequestMapping(value="/cart/{cartId}/{foodId}", method=RequestMethod.DELETE)
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public String deleteOrderItemFromOrder(@PathVariable Integer cartId,
+            @PathVariable String foodId){
+        service.getOrderById(cartId).removeOrderItem(foodId);
+        return "food/list";
+    }
+    
+    @RequestMapping(value="/cart/{cartId}/{foodId}", method=RequestMethod.DELETE, produces=PRODUCES_JSON,
+            headers="contetn-length(0")
+    @ResponseStatus(value=HttpStatus.OK)
+    @ResponseBody
+    public String deleteOrderItemFromOrderFromJson(@PathVariable Integer cartId, 
+            @PathVariable String foodId){
+        service.getOrderById(cartId).removeOrderItem(foodId);
+        return "{\"status\":\"deleted\"}";
+    }
+    
 }

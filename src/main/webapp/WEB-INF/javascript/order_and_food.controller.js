@@ -4,10 +4,12 @@ function OrderAndFoodController($scope, $http) {
       $scope.newFood = {};	
       $scope.foods={};
       $scope.order={};
+      $scope.newOrderItem = {};
+      $scope.cartId;
       
 	  $scope.refresh = function() {
 		  console.log("refresh ...");
-
+		  
 		  $http({method: 'GET', url: '/mvc/food'}).
 		  success(function(data, status, headers, config) {
 			  $scope.jsonResult = "OK " + data;
@@ -19,6 +21,27 @@ function OrderAndFoodController($scope, $http) {
 		  error(function(data, status, headers, config) {
 			  $scope.jsonResult = "ERROR " + data;
 		  });
+		  
+		  $http({method: 'POST', url: '/mvc/order/cart'}).
+		  success(function(data, status, headers, config) {
+			  console.log("cartId received: " + angular.fromJson(data).id);
+			  $scope.cartId = angular.fromJson(data).id;
+		  }).
+		  error(function(data, status, headers, config) {
+			  $scope.jsonResult = "ERROR " + data;
+		  });
+		  
+		  $http({method: 'GET', url: '/mvc/order/cart/'+$scope.cartId}).
+		  success(function(data, status, headers, config) {
+			  console.log("cartcontenct received: " + angular.fromJson(data));
+			  data.forEach(function(orderItem) {
+				  $scope.order[orderItem.id] = orderItem;
+			  });
+		  }).
+		  error(function(data, status, headers, config) {
+			  $scope.jsonResult = "ERROR " + data;
+		  });
+		  
 		  $scope.newFood = new Object();
 	  };
 	  
@@ -51,4 +74,33 @@ function OrderAndFoodController($scope, $http) {
 		  });
 		  console.log("debug4");
 	  };
+	  
+	  $scope.addOrderItem = function(foodId) {
+		  $scope.newOrderItem.foodId = foodId;
+		  console.log("debug6:"+ $scope.newOrderItem.foodId);
+		  console.log("debug7:"+ $scope.newOrderItem.quantity);
+		  console.log("debug8:"+ angular.toJson($scope.newOrderItem));
+		  
+		  $http({method: 'PUT', url: '/mvc/order/cart/' + $scope.cartId, data: angular.toJson($scope.newOrderItem)}).
+		  success(function(data, status, headers, config) {
+			  console.log("ADD orderItem ok");
+			  $scope.refresh();
+		  }).
+		  error(function(data, status, headers, config) {
+			  console.log("error adding orderItem");
+		  });
+	  };
+	  
+	  $scope.removeFoodFromOrder = function(orderItemId) {
+		  $http({method: 'DELETE', url: '/mvc/order/cart/' + $scope.cartId+'/'+orderItemId}).
+		  success(function(data, status, headers, config) {
+			  $scope.jsonResult = "OK " + data;
+			  delete $scope.order[orderItemId];
+		  }).
+		  error(function(data, status, headers, config) {
+			  $scope.jsonResult = "ERROR " + data;
+		  });
+	  };
+	  
+	  
 }

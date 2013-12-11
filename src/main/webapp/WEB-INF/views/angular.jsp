@@ -26,16 +26,24 @@
 					<td>{{food.price}}</td>
 					<td>
 					 <div align="center">
+					 <table>
+					  <tr>
 						<button class="btn btn-danger" ng-click="remove(food.id)">
 							<i class="icon icon-trash icon-white"></i>
 						</button>
-						<button class="btn btn-success" ng-click="addOrderItem(food.id, 1)">
-              <i class="icon icon-plus-sign icon-white"></i>
-            </button>
+						<form class="form-inline"> 
+              <input type="hidden" ng-init="newOrderItem.quantity='1'" ng-model="newOrderItem.quantity">
+              <button type="submit" class="btn btn-success" ng-click="addOrderItem(food.id)">
+                <i class="icon icon-plus-sign icon-white"></i>
+              </button>
+            </form>
+            </tr>
+            </table>
            </div>
 					</td>
 				</tr>
-			</table> <!-- <h3>result: {{jsonResult}}</h3>-->
+			</table>  <!-- <h3>result: {{jsonResult}}</h3>-->
+			<h3>cartId: {{cartId}}</h3>
 			</div>
 			<hr />
 			<form class="form-inline">
@@ -45,23 +53,25 @@
 			</form>
 		<td>
 		<td>
-      <table>
+		  <div class="span6">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th>food</th>
             <th>quantity</th>
           </tr>
         </thead>
-        <tr ng-repeat="orderitem in order">
-          <td>{{orderitem.id}}</td>
-          <td>{{orderitem.quantity}}</td>
+        <tr ng-repeat="orderItem in order">
+          <td>{{orderItem.id}}</td>
+          <td>{{orderItem.quantity}}</td>
           <td>
-            <button class="btn btn-danger" ng-click="removeFoodFromOrder(orderitem.id)">
+            <button class="btn btn-danger" ng-click="removeFoodFromOrder(orderItem.id)">
               <i class="icon icon-trash icon-white"></i>
             </button>
           </td>
         </tr>
       </table>
+      </div>
     </td>
 	</tr>
 </table>
