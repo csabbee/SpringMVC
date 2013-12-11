@@ -105,7 +105,7 @@ public class FoodController {
             return "food/list";
         } else {
             foodService.add(food);
-            flash.addFlashAttribute("flashMsg", "You have successfullky updated: " + food.getName());
+            flash.addFlashAttribute("flashMsg", "You have successfully updated: " + food.getName());
             flash.addFlashAttribute("flashType", "info");
 
             return "redirect:/food";
