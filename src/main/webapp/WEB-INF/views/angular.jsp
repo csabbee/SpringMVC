@@ -75,8 +75,8 @@
 						<tr>
               <td>
                <div align="center">
-                <button class="btn btn-success span2" ng-click="checkOut()">
-                  <i class="icon icon-ok icon-white"></i>
+                <button class="btn btn-success btn-large" ng-click="checkOut()">
+                  <span class="glyphicon icon-shopping-cart icon-white" style="font-size:30px"></span>
                 </button>
                </div>
               </td>
