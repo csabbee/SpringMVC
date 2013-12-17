@@ -8,18 +8,22 @@ function OrderAndFoodController($scope, $http) {
 	$scope.cartId = 0;
 	$scope.total;
 
-	$scope.refresh = function() {
-		console.log("refresh ...");
+	
+	$scope.getCart = function() {
 		$http({
 			method : 'POST',
 			url : '/mvc/order/cart'
 		}).success(function(data, status, headers, config) {
 			console.log("cartId received: " + angular.fromJson(data).id);
 			$scope.cartId = angular.fromJson(data).id;
+			$scope.refresh();
 		}).error(function(data, status, headers, config) {
 			$scope.jsonResult = "ERROR " + data;
 		});
-
+	};
+	
+	$scope.refresh = function() {
+		console.log("refresh ...");
 		$http({
 			method : 'GET',
 			url : '/mvc/food'
@@ -46,7 +50,8 @@ function OrderAndFoodController($scope, $http) {
 		});
 		$scope.newFood = new Object();
 	};
-
+	
+	$scope.getCart();
 	$scope.refresh();
 	
 	$scope.remove = function(foodId) {
@@ -116,11 +121,11 @@ function OrderAndFoodController($scope, $http) {
 			url : '/mvc/order/cart/' + $scope.cartId
 		}).success(function(data, status, headers, config) {
 			$scope.jsonResult = "OK " + data;
+			$scope.getCart();
 		}).error(function(data, status, headers, config) {
 			$scope.jsonResult = "ERROR " + data;
 		});
 		$scope.order = {};
-		$scope.refresh();
 	};
 	
 }
